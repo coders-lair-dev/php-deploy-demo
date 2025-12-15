@@ -1,0 +1,20 @@
+before_script:
+  - eval $(ssh-agent -s)
+  - echo $SSH_PRIVATE_KEY | base64 -d |tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: server1
+    url: $SERVER
+  script:
+    - ssh $SSH_USER@$SERVER "sudo rm -rf /var/www/demo &&
+      cd /var/www &&
+      git clone https://github.com/coders-lair-dev/php-deploy-demo.git demo &&
+      sudo chown www-data:www-data demo -R &&
+      cd demo &&
+      sh ./deploy.sh $SERVER
+  only:
+    - main
