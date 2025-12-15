@@ -15,7 +15,6 @@ deploy_server1:
       git clone https://github.com/coders-lair-dev/php-deploy-demo.git demo &&
       sudo chown www-data:www-data demo -R &&
       cd demo &&
-      sh ./deploy.sh $SERVER
+      sh ./deploy.sh $SERVER"
   only:
     - main
-    
